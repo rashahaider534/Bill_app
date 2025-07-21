@@ -1,0 +1,68 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BillAttachmentController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\BillDetailController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Models\BillAttachment;
+use App\Models\BillDetail;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('auth.login');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('/bill', BillController::class);
+Route::resource('/section', SectionController::class);
+Route::resource('/product', ProductController::class);
+Route::get('section/{id}', [BillController::class, 'getProducts']);
+Route::resource('/billdetail', BillDetailController::class);
+Route::get('edit_bill/{id}', [BillController::class, 'edit']);
+Route::get('/Status_show/{id}',[BillController::class, 'show'])->name('Status_show');
+Route::post('/Status_Update/{id}', [BillController::class, 'Status_Update'])->name('Status_Update');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+Route::get('/billDetails/{id}', [BillDetailController::class,'show']);
+Route::resource('billAttachments',BillAttachmentController::class );
+Route::get('/billpaid',[BillController::class, 'billpaid']);
+Route::get('/billunpaid',[BillController::class, 'billunpaid']);
+Route::get('/billpartpaid',[BillController::class, 'billpartpaid']);
+Route::get('download/{bill_number}/{file_name}', [BillDetailController::class,'get_file']);
+Route::get('View_file/{bill_number}/{file_name}',[BillDetailController::class ,'open_file']);
+
+Route::resource('/archive',ArchiveController::class);
+Route::get('Print_bill/{id}',[BillController::class,'Print_bill']);
+Route::post('delete_file', [BillDetailController::class ,'destroy'])->name('delete_file');
+
+Route::get('/user',[UserController::class,'index']);
+Route::get('/user/create',[UserController::class,'create']);
+Route::get('/role',[RoleController::class,'index']);
+require __DIR__.'/auth.php';
+Route::get('/{page}', [AdminController::class,'index']);
+
+
+
