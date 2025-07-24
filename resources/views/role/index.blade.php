@@ -31,7 +31,6 @@
                 type: "success"
             });
         }
-
     </script>
 @endif
 
@@ -43,7 +42,6 @@
                 type: "success"
             });
         }
-
     </script>
 @endif
 
@@ -55,7 +53,6 @@
                 type: "error"
             });
         }
-
     </script>
 @endif
 
@@ -68,7 +65,7 @@
                     <div class="col-lg-12 margin-tb">
                         <div class="pull-right">
                             @can('اضافة صلاحية')
-                                <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">اضافة</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('role.create') }}">اضافة</a>
                             @endcan
                         </div>
                     </div>
@@ -102,14 +99,17 @@
                                                 href="{{ route('roles.edit', $role->id) }}">تعديل</a>
                                         @endcan
 
-                                        @if ($role->name !== 'owner')
-                                            @can('حذف صلاحية')
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy',
-                                                $role->id], 'style' => 'display:inline']) !!}
-                                                {!! Form::submit('حذف', ['class' => 'btn btn-danger btn-sm']) !!}
-                                                {!! Form::close() !!}
-                                            @endcan
-                                        @endif
+                                        {{-- @if ($role->name !== 'owner') --}}
+                                        @can('حذف صلاحية')
+                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                            </form>
+                                        @endcan
+                                        {{-- @endif  --}}
 
 
                                     </td>

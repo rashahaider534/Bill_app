@@ -89,7 +89,7 @@
 
                                     <td>
                                         @can('تعديل مستخدم')
-                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-info"
+                                            <a href="{{route('user.edit',$user->id)}}" class="btn btn-sm btn-info"
                                                 title="تعديل"><i class="las la-pen"></i></a>
                                         @endcan
 
@@ -118,8 +118,8 @@
                     <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
                         data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 </div>
-                {{-- <form action="{{ route('users.destroy', 'test') }}" method="post">
-                    {{ method_field('delete') }}
+                 <form action="{{ route('user.destroy') }}" method="post">
+
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <p>هل انت متاكد من عملية الحذف ؟</p><br>
@@ -130,7 +130,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                         <button type="submit" class="btn btn-danger">تاكيد</button>
                     </div>
-            </div> --}}
+            </div>
             </form>
         </div>
     </div>

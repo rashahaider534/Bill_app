@@ -58,9 +58,20 @@ Route::resource('/archive',ArchiveController::class);
 Route::get('Print_bill/{id}',[BillController::class,'Print_bill']);
 Route::post('delete_file', [BillDetailController::class ,'destroy'])->name('delete_file');
 
-Route::get('/user',[UserController::class,'index']);
+Route::get('/user',[UserController::class,'index'])->name('user.index');
 Route::get('/user/create',[UserController::class,'create']);
-Route::get('/role',[RoleController::class,'index']);
+Route::post('/user/store',[UserController::class,'store'])->name('user.store');
+Route::get('/user/edit/{id}',[UserController::class,'edit'])->name('user.edit');
+Route::post('/user/update/{id}',[UserController::class,'update'])->name('user.update');
+Route::post('/user/destroy',[UserController::class,'destroy'])->name('user.destroy');
+
+Route::get('/role',[RoleController::class,'index'])->name('role.index');
+Route::get('/role/create',[RoleController::class,'create'])->name('role.create');
+Route::post('/role/store',[RoleController::class,'store'])->name('role.store');
+Route::post('/role/update/{id}',[RoleController::class,'update'])->name('roles.update');
+Route::post('/role/destroy/{id}',[RoleController::class,'destroy'])->name('roles.destroy');
+Route::get('/role/edit/{id}',[RoleController::class,'edit'])->name('roles.edit');
+Route::get('/role/show/{id}',[RoleController::class,'show'])->name('roles.show');
 require __DIR__.'/auth.php';
 Route::get('/{page}', [AdminController::class,'index']);
 

@@ -19,10 +19,12 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
+            @can('اضافة فاتورة')
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto">الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
                     اضافة فاتورة</span>
             </div>
+            @endcan
         </div>
     </div>
     <!-- breadcrumb -->
@@ -88,7 +90,7 @@
                             <div class="col">
                                 <label for="inputName" class="control-label">المنتج</label>
                                 <select id="product" name="product" class="form-control">
-                  
+
 
                                 </select>
                             </div>
