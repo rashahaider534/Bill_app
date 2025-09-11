@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -31,7 +32,7 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
-   
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -41,7 +42,13 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $credentials = $this->only('email', 'password');
+
+        // أولاً: جلب المستخدم يدويًا للتأكد من الحالة
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+        // تحقق من أن المستخدم موجود وكلمة السر صحيحة
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -49,8 +56,19 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // تحقق من أن حالة المستخدم مفعل
+        if ($user->Status !== 'مفعل') {
+            throw ValidationException::withMessages([
+                'email' => 'هذا الحساب غير مفعل. يرجى التواصل مع الإدارة.',
+            ]);
+        }
+
+        // تسجيل الدخول يدويًا
+        Auth::login($user, $this->boolean('remember'));
+
         RateLimiter::clear($this->throttleKey());
     }
+
 
     /**
      * Ensure the login request is not rate limited.
@@ -80,6 +98,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

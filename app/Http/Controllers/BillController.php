@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\AddBill;
+use App\Notifications\AddInvoice;
+
 use function Symfony\Component\String\b;
 
 class BillController extends Controller
@@ -88,8 +90,9 @@ class BillController extends Controller
             $imageName = $request->pic->getClientOriginalName();
             $request->pic->move(public_path('uploads/' . $bill_number), $imageName);
         }
-        $user =Auth::user();
-        Notification::send($user, new  AddBill($bill_id));
+       $user = auth()->user();
+        $admin=User::first();
+       $admin->notify(new AddInvoice($bill_id,$user));
         return back();
     }
 

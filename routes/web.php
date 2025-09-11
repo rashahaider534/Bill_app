@@ -11,6 +11,9 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Invoices_ReportController;
+use App\Http\Controllers\Customers_ReportController;
+use App\Http\Controllers\HomeController;
 use App\Models\BillAttachment;
 use App\Models\BillDetail;
 
@@ -29,9 +32,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[HomeController::class,'index']
+)->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/bill', BillController::class);
 Route::resource('/section', SectionController::class);
@@ -72,6 +74,14 @@ Route::post('/role/update/{id}',[RoleController::class,'update'])->name('roles.u
 Route::post('/role/destroy/{id}',[RoleController::class,'destroy'])->name('roles.destroy');
 Route::get('/role/edit/{id}',[RoleController::class,'edit'])->name('roles.edit');
 Route::get('/role/show/{id}',[RoleController::class,'show'])->name('roles.show');
+
+Route::get('invoices_report', [Invoices_ReportController::class,'index']);
+Route::post('Search_invoices', [Invoices_ReportController::class,'Search_invoices']);
+
+Route::get('customers_report', [Customers_ReportController::class,'index']);
+Route::post('Search_customers', [Customers_ReportController::class,'Search_customers']);
+
+
 require __DIR__.'/auth.php';
 Route::get('/{page}', [AdminController::class,'index']);
 
