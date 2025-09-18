@@ -11,7 +11,7 @@ class section extends Model
     protected $fillable=['name','description','created_by'];
     public function products()
 {
-    return $this->hasMany(Product::class);
+    return $this->hasMany(Product::class, 'section_id');
 }
 public function Bills()
 {

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Bill;
 use App\Models\BillAttachment;
 use App\Models\BillDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Section;
 use App\Models\User;
@@ -153,8 +154,10 @@ class BillController extends Controller
     }
     public function getproducts($id)
     {
-        $products = DB::table("products")->where("section_id", $id)->pluck("name", "id");
-        return json_encode($products);
+        $products = Product::where('section_id', $id)->pluck("name", "id");
+        dd($products);
+         return response()->json($products);
+
     }
     public function Status_Update($id, Request $request)
     {
@@ -223,4 +226,14 @@ class BillController extends Controller
         $invoices = Bill::where('id', $id)->first();
         return view('bill.Print_bill',compact('invoices'));
     }
+     public function MarkAsRead_all (Request $request)
+    {
+
+        $userUnreadNotification= auth()->user()->unreadNotifications;
+
+        if($userUnreadNotification) {
+            $userUnreadNotification->markAsRead();
+            return back();
+        }
+}
 }

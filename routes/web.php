@@ -39,6 +39,7 @@ Route::resource('/bill', BillController::class);
 Route::resource('/section', SectionController::class);
 Route::resource('/product', ProductController::class);
 Route::get('section/{id}', [BillController::class, 'getProducts']);
+Route::get('MarkAsRead_all',[BillController::class, 'MarkAsRead_all'])->name('MarkAsRead_all');
 Route::resource('/billdetail', BillDetailController::class);
 Route::get('edit_bill/{id}', [BillController::class, 'edit']);
 Route::get('/Status_show/{id}',[BillController::class, 'show'])->name('Status_show');
