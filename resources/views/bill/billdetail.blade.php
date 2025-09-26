@@ -44,8 +44,7 @@
                                                         data-toggle="tab">الفاتورة</a></li>
                                                 <li class="nav-item"><a href="#tab2" class="nav-link" data-toggle="tab">
                                                         تفاصيل الفاتورة</a></li>
-                                                <li class="nav-item"><a href="#tab3" class="nav-link"
-                                                        data-toggle="tab">مرفقات</a></li>
+
                                             </ul>
                                         </div>
                                     </div>
@@ -158,7 +157,7 @@
                                             <div class="tab-pane" id="tab3">
                                                 <!--المرفقات-->
                                                 <div class="card card-statistics">
-                                                    {{-- @can('اضافة مرفق') --}}
+                                                    @can('اضافة مرفق')
                                                         <div class="card-body">
                                                             <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                                             <h5 class="card-title">اضافة مرفقات</h5>
@@ -179,7 +178,7 @@
                                                                     name="uploadedFile">تاكيد</button>
                                                             </form>
                                                         </div>
-                                                    {{-- @endcan --}}
+                                                    @endcan
                                                     <br>
                                                     <div class="table-responsive mt-15">
                                                         <table class="table center-aligned-table mb-0 table table-hover"

@@ -52,12 +52,11 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
+            
             'roles' => 'required'
         ]);
         $input = $request->all();
 
-        $input['password'] = Hash::make($input['password']);
 
         $user = User::find($id);
         $user->update($input);

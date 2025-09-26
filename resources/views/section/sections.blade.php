@@ -55,9 +55,11 @@
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title mg-b-0">جدول الأقسام</h4>
+                    @can('اضافة قسم')
                     <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addSectionModal">
                         <i class="fas fa-plus"></i> إضافة قسم
                     </button>
+                    @endcan
                 </div>
                 <p class="tx-12 tx-gray-500 mb-2">مثال على جدول بيانات باستخدام DataTables.</p>
             </div>
@@ -86,6 +88,7 @@
                                 <td>{{$section->name}}</td>
                                 <td>{{$section->description}}</td>
                                 <td>
+                                    @can('تعديل قسم')
                                     <button
                                         class="btn btn-sm btn-primary edit-section-btn"
                                         data-id="{{ $section->id }}"
@@ -95,10 +98,13 @@
                                         data-target="#editSectionModal">
                                         تعديل
                                     </button>
+                                    @endcan
                                     <form action="{{ route('section.destroy', $section->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
+                                        @can('حذف قسم')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                        @endcan
                                     </form>
 
                                 </td>

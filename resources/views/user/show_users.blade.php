@@ -2,7 +2,7 @@
 @section('css')
 
 @section('title')
-    المستخدمين - مورا سوفت للادارة الفواتير
+ المستخدمين
 @stop
 
 <!-- Internal Data table css -->
@@ -18,6 +18,7 @@
 @endsection
 @section('page-header')
 <!-- breadcrumb -->
+
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
@@ -43,9 +44,9 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="col-sm-1 col-md-2">
-                    {{-- @can('اضافة مستخدم') --}}
+                    @can('اضافة مستخدم')
                         <a class="btn btn-primary btn-sm" href="{{ url('/' . ($page = 'user/create')) }}">اضافة مستخدم</a>
-                    {{-- @endcan --}}
+                    @endcan
                 </div>
             </div>
             <div class="card-body">
@@ -114,6 +115,7 @@
     <div class="modal" id="modaldemo8">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-demo">
+                @can('حذف المستخدم')
                 <div class="modal-header">
                     <h6 class="modal-title">حذف المستخدم</h6><button aria-label="Close" class="close"
                         data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
@@ -132,6 +134,7 @@
                     </div>
             </div>
             </form>
+            @endcan
         </div>
     </div>
 </div>

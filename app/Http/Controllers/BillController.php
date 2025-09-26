@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\DB;
 use App\Models\Bill;
 use App\Models\BillAttachment;
@@ -23,7 +24,7 @@ class BillController extends Controller
      */
     public function index()
     {
-
+        
         $bills = bill::all();
         return view('bill.bills', compact('bills'));
     }
@@ -35,7 +36,7 @@ class BillController extends Controller
     {
         $sections = Section::all();
 
-         return view('bill.addbill', compact('sections'));
+        return view('bill.addbill', compact('sections'));
     }
 
     /**
@@ -91,9 +92,9 @@ class BillController extends Controller
             $imageName = $request->pic->getClientOriginalName();
             $request->pic->move(public_path('uploads/' . $bill_number), $imageName);
         }
-       $user = auth()->user();
-        $admin=User::first();
-       $admin->notify(new AddInvoice($bill_id,$user));
+        $user = auth()->user();
+        $admin = User::first();
+        $admin->notify(new AddInvoice($bill_id, $user));
         return back();
     }
 
@@ -102,8 +103,8 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        $bill=Bill::where('id',$id)->first();
-        return view('bill.statusupdate',compact('bill'));
+        $bill = Bill::where('id', $id)->first();
+        return view('bill.statusupdate', compact('bill'));
     }
 
     /**
@@ -112,8 +113,8 @@ class BillController extends Controller
     public function edit($id)
     {
         $sections = Section::all();
-       $bill = Bill::where('id', $id)->first();
-         return view('bill.billedit', compact('sections','bill'));
+        $bill = Bill::where('id', $id)->first();
+        return view('bill.billedit', compact('sections', 'bill'));
     }
 
     /**
@@ -146,18 +147,16 @@ class BillController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id=$request->invoice_id;
-        $bill=Bill::where('id',$id)->first();
+        $id = $request->invoice_id;
+        $bill = Bill::where('id', $id)->first();
         $bill->delete();
         session()->flash('delete_at');
         return redirect('/bill');
     }
     public function getproducts($id)
     {
-        $products = Product::where('section_id', $id)->pluck("name", "id");
-        dd($products);
-         return response()->json($products);
-
+        $products = Product::where('section_id', $id)->pluck('name', 'id');
+        return response()->json($products);
     }
     public function Status_Update($id, Request $request)
     {
@@ -182,9 +181,7 @@ class BillController extends Controller
                 'Payment_Date' => $request->Payment_Date,
                 'user' => (Auth::user()->name),
             ]);
-        }
-
-        else {
+        } else {
             $bill->update([
                 'Value_Status' => 3,
                 'Status' => $request->Status,
@@ -204,36 +201,35 @@ class BillController extends Controller
         }
         session()->flash('Status_Update');
         return redirect('/bill');
-
     }
     public function billpaid()
     {
-        $bills=Bill::where('Value_Status',1)->get();
-        return view('bill.billpaid',compact('bills'));
+        $bills = Bill::where('Value_Status', 1)->get();
+        return view('bill.billpaid', compact('bills'));
     }
-     public function billunpaid()
+    public function billunpaid()
     {
-        $bills=Bill::where('Value_Status',2)->get();
-        return view('bill.billunpaid',compact('bills'));
+        $bills = Bill::where('Value_Status', 2)->get();
+        return view('bill.billunpaid', compact('bills'));
     }
-      public function billpartpaid()
+    public function billpartpaid()
     {
-        $bills=Bill::where('Value_Status',3)->get();
-        return view('bill.billunpaid',compact('bills'));
+        $bills = Bill::where('Value_Status', 3)->get();
+        return view('bill.billunpaid', compact('bills'));
     }
     public function Print_bill($id)
     {
         $invoices = Bill::where('id', $id)->first();
-        return view('bill.Print_bill',compact('invoices'));
+        return view('bill.Print_bill', compact('invoices'));
     }
-     public function MarkAsRead_all (Request $request)
+    public function MarkAsRead_all(Request $request)
     {
 
-        $userUnreadNotification= auth()->user()->unreadNotifications;
+        $userUnreadNotification = auth()->user()->unreadNotifications;
 
-        if($userUnreadNotification) {
+        if ($userUnreadNotification) {
             $userUnreadNotification->markAsRead();
             return back();
         }
-}
+    }
 }

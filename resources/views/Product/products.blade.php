@@ -65,9 +65,11 @@
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="card-title mg-b-0">جدول المنتجات</h4>
+                    @can('اضافة منتج')
                     <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#addProductModal">
                         <i class="fas fa-plus"></i> إضافة منتج
                     </button>
+                      @endcan
                 </div>
                 <p class="tx-12 tx-gray-500 mb-2">مثال على جدول بيانات باستخدام DataTables.</p>
             </div>
@@ -93,6 +95,7 @@
                                 <td>{{$product->section->name}}</td>
                                 <td>{{$product->description}}</td>
                                 <td>
+                                    @can('تعديل منتج')
                                     <button class="btn btn-sm btn-primary edit-product-btn"
                                         data-id="{{ $product->id }}"
                                         data-name="{{ $product->name }}"
@@ -100,15 +103,18 @@
                                         data-description="{{ $product->description }}"
                                         data-toggle="modal"
                                         data-target="#editProductModal">تعديل</button>
-
+@endcan
                                     <form action="{{ route('product.destroy', $product->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
+                                        @can('حذف منتج')
                                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')">حذف</button>
+                                        @endcan
                                     </form>
                                 </td>
                             </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>

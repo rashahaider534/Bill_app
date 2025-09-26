@@ -64,18 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="row mg-b-20">
-                        <div class="parsley-input col-md-6">
-                            <label>كلمة المرور: <span class="tx-danger">*</span></label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <div class="parsley-input col-md-6">
-                            <label>تأكيد كلمة المرور: <span class="tx-danger">*</span></label>
-                            <input type="password" name="confirm-password" class="form-control" required>
-                        </div>
-                    </div>
-
+                    
                     <div class="row row-sm mg-b-20">
                         <div class="col-lg-6">
                             <label class="form-label">حالة المستخدم</label>
